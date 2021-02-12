@@ -22,7 +22,7 @@ jobs:
           - macOS-latest
 
     steps:
-      - uses: actions/checkout@v2.3.3
+      - uses: actions/checkout@v2.3.4
         if: github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.ref == 'refs/heads/main'
 
       - name: Setup Haskell
