@@ -10,8 +10,7 @@ maintainer:          Daniel Pfefferkorn <pfefferkorn@silpion.de>
 copyright:           2021 Daniel Pfefferkorn
 build-type:          Simple
 extra-doc-files:     README.md
-                     CHANGELOG.md
-tested-with:         GHC == 8.8.3
+tested-with:         GHC == 8.8.4
 
 common common-options
   build-depends:       base-noprelude ^>= 4.13.0.0

@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the main branch
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  cabal:
+    name: ${{ matrix.os }} / ghc ${{ matrix.ghc }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        ghc:
+          - "8.8.4"
+        cabal:
+          - "3.2"
+        os:
+          - windows-latest
+          - macOS-latest
+
+    steps:
+      - uses: actions/checkout@v2.3.3
+        if: github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.ref == 'refs/heads/main'
+
+      - name: Setup Haskell
+        uses: haskell/actions/setup@v1
+        with:
+          ghc-version: ${{ matrix.ghc }}
+          cabal-version: ${{ matrix.cabal }}
+
+      - uses: actions/cache@v2.1.2
+        name: Cache ~/.cabal/store
+        with:
+          path: ~/.cabal/store
+          key: ${{ runner.os }}-${{ matrix.ghc }}-cabal
+
+      - name: Update Hackage index
+        run: cabal v2-update
+
+      - name: Build
+        run: |
+          cabal v2-build -j all
+          rm -rf ./build
+          mkdir ./build
+          cabal v2-install exe:csv-manager --install-method=copy --installdir=./build
+          7z a csv-manager.$PLATFORM.ghc-$GHCVER.zip ./build
+        env:
+          PLATFORM: ${{ matrix.os }}
+          GHCVER: ${{ matrix.ghc }}
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: csv-manager.${{ matrix.os }}.ghc-${{ matrix.ghc }}.zip
+          draft: false
+          prerelease: false
