@@ -6,7 +6,7 @@ description:         See README for more info
 license:             MIT
 license-file:        LICENSE
 author:              Daniel Pfefferkorn
-maintainer:          Daniel Pfefferkorn <pfefferkorn@silpion.de>
+maintainer:          Daniel Pfefferkorn <csv-manager@alboh.de>
 copyright:           2021 Daniel Pfefferkorn
 build-type:          Simple
 extra-doc-files:     README.md
@@ -14,12 +14,14 @@ tested-with:         GHC == 8.8.4
 
 common common-options
   build-depends:       base-noprelude ^>= 4.13.0.0
+                     , aeson
                      , bytestring
-                     , relude
                      , cassava
+                     , full-text-search
+                     , relude
                      , vector
                      , text
-                     , aeson
+                     , tokenize
   
   ghc-options:         -Wall
                        -Wcompat
@@ -43,6 +45,8 @@ library
   hs-source-dirs:      src
   exposed-modules:     CsvManager
                      , Prelude
+                     , Row
+                     , SearchEngine
 
 executable csv-manager
   import:              common-options
