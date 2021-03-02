@@ -1,5 +1,4 @@
 {-# LANGUAGE DerivingStrategies #-}
-{-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE OverloadedStrings #-}
 
 module CsvManager
@@ -8,7 +7,7 @@ module CsvManager
 where
 
 import Data.Aeson (ToJSON, encode)
-import qualified Data.ByteString.Lazy as LC
+import qualified Data.ByteString.Lazy.Char8 as LC
 import Data.Csv (HasHeader (HasHeader), decode)
 import qualified Data.Text as T
 import qualified Data.Vector as V
@@ -42,4 +41,4 @@ decodeItems =
   fmap V.toList <$> decode HasHeader
 
 printJSON :: (ToJSON a) => a -> IO ()
-printJSON = print . encode
+printJSON = LC.putStrLn . encode
