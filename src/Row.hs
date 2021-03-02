@@ -13,42 +13,42 @@ import Data.Aeson (FromJSON, ToJSON)
 import Data.Csv (FromRecord)
 
 data CsvRow = CsvRow
-  { itemNumber :: Text,
-    itemCardboardBox :: Text,
-    itemCount :: Text,
-    itemImage :: Text,
-    itemGender :: Text,
-    itemClothe :: Text,
-    itemTitleEtsy :: Text,
-    itemDesc :: Text,
-    itemBrand :: Text,
-    itemFlaws :: Text,
-    itemColor :: Text,
-    itemSize :: Text,
-    itemTags :: Text,
-    itemMaterial :: Text,
-    itemPrice :: Text,
-    itemStyle :: Text
+  { number :: Text,
+    cardboardBox :: Text,
+    count :: Text,
+    image :: Text,
+    gender :: Text,
+    clothe :: Text,
+    titleEtsy :: Text,
+    desc :: Text,
+    brand :: Text,
+    flaws :: Text,
+    color :: Text,
+    size :: Text,
+    tags :: Text,
+    material :: Text,
+    price :: Text,
+    style :: Text
   }
   deriving stock (Generic, Eq, Show, Ord)
   deriving anyclass (FromJSON, ToJSON, FromRecord)
 
 indexableFields :: CsvRow -> [Text]
 indexableFields CsvRow {..} =
-  [ itemNumber,
-    itemCardboardBox,
-    -- itemCount,
-    itemImage,
-    itemGender,
-    itemClothe,
-    itemTitleEtsy,
-    itemDesc,
-    itemBrand,
-    itemFlaws,
-    itemColor,
-    itemSize,
-    itemTags,
-    itemMaterial,
-    -- itemPrice,
-    itemStyle
+  [ number,
+    cardboardBox,
+    -- count,
+    image,
+    gender,
+    clothe,
+    titleEtsy,
+    desc,
+    brand,
+    flaws,
+    color,
+    size,
+    tags,
+    material,
+    -- price,
+    style
   ]

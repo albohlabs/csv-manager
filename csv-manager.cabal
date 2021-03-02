@@ -17,11 +17,12 @@ common common-options
                      , aeson
                      , bytestring
                      , cassava
+                     , containers
                      , full-text-search
                      , relude
                      , vector
                      , text
-                     , tokenize
+                     , tokenize       >= 0.1
   
   ghc-options:         -Wall
                        -Wcompat

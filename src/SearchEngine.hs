@@ -1,12 +1,14 @@
 {-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 
 module SearchEngine (fromCsvRows, search) where
 
 import Data.Char (isPunctuation)
 import Data.Ix (Ix)
-import Data.SearchEngine (NoFeatures, SearchConfig (..), SearchRankParameters (..))
+import Data.SearchEngine (NoFeatures, SearchConfig (..), SearchRankParameters (..), Term)
 import qualified Data.SearchEngine as SE
+import qualified Data.Set as Set
 import qualified Data.Text as Text
 import qualified NLP.Tokenize as NLP
 import Row (CsvRow, indexableFields)
@@ -50,12 +52,16 @@ searchConfig =
 
 extractTokens :: CsvRow -> SearchField -> [Text]
 extractTokens row NameField =
-  map (Text.toCaseFold . Text.pack)
+  filter (`Set.notMember` stopWords)
+    . map (Text.toCaseFold . Text.pack)
     . concatMap splitTok
     . filter (not . ignoreTok)
     . concatMap (NLP.tokenize . Text.unpack)
     . indexableFields
     $ row
+
+stopWords :: Set Term
+stopWords = Set.fromList ["€"]
 
 ignoreTok :: String -> Bool
 ignoreTok = all isPunctuation
