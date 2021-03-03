@@ -28,11 +28,14 @@ someFunc = do
     Left e -> putStrLn e
     Right xs -> do
       let searchengine = fromCsvRows xs
+      printJSON xs
 
       forever $ do
         searchTerm <- T.toCaseFold . T.strip <$> getLine
 
-        printJSON $ search searchTerm searchengine
+        case searchTerm of
+          "" -> printJSON xs
+          _ -> printJSON $ search searchTerm searchengine
 
 decodeItems ::
   LC.ByteString ->
