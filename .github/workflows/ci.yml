@@ -28,7 +28,7 @@ jobs:
           ghc-version: ${{ matrix.ghc }}
           cabal-version: ${{ matrix.cabal }}
 
-      - uses: actions/cache@v3.0.8
+      - uses: actions/cache@v3.2.1
         name: Cache ~/.cabal/store
         with:
           path: |
